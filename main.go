@@ -18,14 +18,14 @@ func main() {
 
 	switch day {
 	case 0:
-		fmt.Println("Please select a day via \"--day <number>\"")
+		flag.PrintDefaults()
 		os.Exit(1)
 	case 1:
 		advent.Day01()
 	case 2:
 		advent.Day02()
 	default:
-		fmt.Println("Invalid day:", day)
+		fmt.Fprintln(os.Stderr, "Invalid day:", day)
 		os.Exit(1)
 
 	}
