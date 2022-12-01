@@ -9,11 +9,6 @@ import (
 	"strings"
 )
 
-type Point struct {
-	x, y   int
-	dx, dy int
-}
-
 func toInt(s string) int {
 	i, _ := strconv.Atoi(s)
 	return i
