@@ -37,6 +37,42 @@ func bWins(a, b byte, rpsA, rpsB [3]byte) bool {
 	return aWins(b, a, rpsB, rpsA)
 }
 
+func getB(a, whatToDo byte) byte {
+	var ABC = [3]byte{'A', 'B', 'C'}
+	var b byte
+
+	switch whatToDo {
+	case 'X':
+		switch decode(a, ABC) {
+		case 'R':
+			b = 'C'
+		case 'P':
+			b = 'A'
+		case 'S':
+			b = 'B'
+		default:
+			panic("noooo")
+		}
+	case 'Y':
+		b = a
+	case 'Z':
+		switch decode(a, ABC) {
+		case 'R':
+			b = 'B'
+		case 'P':
+			b = 'C'
+		case 'S':
+			b = 'A'
+		default:
+			panic("noooo")
+		}
+
+	default:
+		panic("invalid instruction")
+	}
+	return b
+}
+
 func Day02() {
 	var ABC = [3]byte{'A', 'B', 'C'}
 	var XYZ = [3]byte{'X', 'Y', 'Z'}
@@ -78,36 +114,8 @@ func Day02() {
 	for _, strategy := range strategies {
 		a := strategy[0]
 		whatToDo := strategy[1]
-		var b byte
-		switch whatToDo {
-		case 'X':
-			switch decode(a, ABC) {
-			case 'R':
-				b = 'C'
-			case 'P':
-				b = 'A'
-			case 'S':
-				b = 'B'
-			default:
-				panic("noooo")
-			}
-		case 'Y':
-			b = a
-		case 'Z':
-			switch decode(a, ABC) {
-			case 'R':
-				b = 'B'
-			case 'P':
-				b = 'C'
-			case 'S':
-				b = 'A'
-			default:
-				panic("noooo")
-			}
+		b := getB(a, whatToDo)
 
-		default:
-			panic("invalid instruction")
-		}
 		score := int(b - 'A' + 1)
 		if bWins(a, b, ABC, ABC) {
 			score += 6
