@@ -33,7 +33,6 @@ func aWins(a, b byte, rpsA, rpsB [3]byte) bool {
 }
 
 func bWins(a, b byte, rpsA, rpsB [3]byte) bool {
-
 	return aWins(b, a, rpsB, rpsA)
 }
 
