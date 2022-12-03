@@ -2,6 +2,14 @@ use std::collections::HashSet;
 
 use itertools::Itertools;
 
+fn char_score(common: Option<u8>) -> u64 {
+    match common {
+        Some(c @ b'a'..=b'z') => (c - b'a' + 1) as u64,
+        Some(c @ b'A'..=b'Z') => (c - b'A' + 1 + 26) as u64,
+        _ => 0,
+    }
+}
+
 fn main() {
     let input = include_str!("../../../input/day03.txt");
 
@@ -17,15 +25,7 @@ fn main() {
         let set_b: HashSet<u8> = b.iter().copied().collect();
         let common = set_a.intersection(&set_b).next();
 
-        match common {
-            Some(c @ b'a'..=b'z') => {
-                sum += (c - b'a' + 1) as u64;
-            }
-            Some(c @ b'A'..=b'Z') => {
-                sum += (c - b'A' + 1 + 26) as u64;
-            }
-            _ => {}
-        }
+        sum += char_score(common.cloned())
     }
     let part1 = sum;
     dbg!(&part1);
@@ -46,11 +46,7 @@ fn main() {
                 .copied()
                 .next()
         })
-        .map(|common| match common {
-            Some(c @ b'a'..=b'z') => (c - b'a' + 1) as u64,
-            Some(c @ b'A'..=b'Z') => (c - b'A' + 1 + 26) as u64,
-            _ => 0,
-        })
+        .map(char_score)
         .sum::<u64>();
     dbg!(&part2);
 }
