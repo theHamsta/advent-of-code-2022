@@ -24,6 +24,8 @@ func main() {
 		advent.Day01()
 	case 2:
 		advent.Day02()
+	case 3:
+		advent.Day03()
 	default:
 		fmt.Fprintln(os.Stderr, "Invalid day:", day)
 		os.Exit(1)
