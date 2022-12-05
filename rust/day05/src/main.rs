@@ -13,18 +13,18 @@ fn main() {
 
     let stack_num = 9;
 
-    let stacks = input
+    let stack_lines = input
         .lines()
         .take_while(|l| !l.starts_with(" 1"))
         .collect_vec();
-    let stacks = stacks.iter().rev().collect_vec();
-    let mut stack = vec![Vec::<char>::new(); stack_num];
-    for line in stacks.iter() {
+    let stack_lines = stack_lines.iter().rev().collect_vec();
+    let mut stacks = vec![Vec::<char>::new(); stack_num];
+    for line in stack_lines.iter() {
         for i in 0..stack_num {
             if (i * 4 + 1) < line.len() {
                 let c = line.as_bytes()[i * 4 + 1] as char;
                 if c != ' ' {
-                    stack[i].push(c);
+                    stacks[i].push(c);
                 }
             }
         }
@@ -41,7 +41,7 @@ fn main() {
         })
         .collect();
 
-    let mut part1 = stack.clone();
+    let mut part1 = stacks.clone();
     for instruction in instructions.iter() {
         for _ in 0..instruction.howmany {
             if let Some(from) = part1[instruction.from as usize - 1].pop() {
@@ -54,7 +54,7 @@ fn main() {
     let part1: String = part1.iter_mut().map(|s| s.pop().unwrap_or(' ')).collect();
     dbg!(&part1);
 
-    let mut part2 = stack.clone();
+    let mut part2 = stacks.clone();
     for instruction in instructions.iter() {
         let from = &mut part2[instruction.from as usize - 1];
         let mut tmp = from.split_off(from.len() - instruction.howmany as usize);
