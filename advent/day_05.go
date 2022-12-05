@@ -55,7 +55,6 @@ func Day05() {
 		if strings.HasPrefix(line, " 1") {
 			break
 		}
-		fmt.Println(line)
 	}
 
 	instructions := make([][3]int, 0)
@@ -97,5 +96,4 @@ func Day05() {
 		}
 	}
 	fmt.Println("Part 2:", stacksToWord(stacks))
-
 }
