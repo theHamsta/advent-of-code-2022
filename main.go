@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	advent "theHamsta/advent-of-code-2022/src"
+	"theHamsta/advent-of-code-2022/advent"
 )
 
 func main() {

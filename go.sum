@@ -1,2 +1,4 @@
 github.com/golang-collections/collections v0.0.0-20130729185459-604e922904d3 h1:zN2lZNZRflqFyxVaTIU61KNKQ9C0055u9CAfpmqUvo4=
 github.com/golang-collections/collections v0.0.0-20130729185459-604e922904d3/go.mod h1:nPpo7qLxd6XL3hWJG/O60sR8ZKfMCiIoNap5GvD12KU=
+gopkg.in/dnaeon/go-deque.v1 v1.0.0-20220926101334-c8c1a1f04894 h1:gxr0TTjgWxerNh7DywoDIAceteSUGYkRF5mtE/kr5xE=
+gopkg.in/dnaeon/go-deque.v1 v1.0.0-20220926101334-c8c1a1f04894/go.mod h1:/oUlvC7v/6StKZYUKPFtH7YbgkLITXvh4CMF7cElPo8=

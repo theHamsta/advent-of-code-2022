@@ -9,7 +9,7 @@ package main
 
 import (
 	"testing"
-	advent "theHamsta/advent-of-code-2022/src"
+	"theHamsta/advent-of-code-2022/advent"
 )
 
 func benchmarkDay(day int, b *testing.B) {
@@ -22,3 +22,4 @@ func BenchmarkDay01(b *testing.B) { benchmarkDay(1, b) }
 func BenchmarkDay02(b *testing.B) { benchmarkDay(2, b) }
 func BenchmarkDay03(b *testing.B) { benchmarkDay(3, b) }
 func BenchmarkDay04(b *testing.B) { benchmarkDay(4, b) }
+func BenchmarkDay05(b *testing.B) { benchmarkDay(5, b) }
