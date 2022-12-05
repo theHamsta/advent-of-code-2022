@@ -18,7 +18,6 @@ fn main() {
         .take_while(|l| !l.starts_with(" 1"))
         .collect_vec();
     let stacks = stacks.iter().rev().collect_vec();
-    dbg!(&stacks);
     let mut stack = vec![Vec::<char>::new(); stack_num];
     for line in stacks.iter() {
         for i in 0..stack_num {
