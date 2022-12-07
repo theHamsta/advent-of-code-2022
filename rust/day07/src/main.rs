@@ -1,4 +1,4 @@
-use std::{cell::RefCell, rc::Rc, sync::Mutex};
+use std::{cell::RefCell, rc::Rc};
 
 use regex::Regex;
 
@@ -30,16 +30,16 @@ struct Commmand {
 struct Tree {
     name: String,
     output: Option<Vec<Output>>,
-    children: Vec<Rc<Mutex<Tree>>>,
-    parent: Option<Rc<Mutex<Tree>>>,
-    size: usize
+    children: Vec<Rc<RefCell<Tree>>>,
+    parent: Option<Rc<RefCell<Tree>>>,
+    size: usize,
 }
 
 fn part1(tree: &mut Tree) -> (usize, usize) {
     let mut total = 0;
     let mut total_score = 0;
     for child in &tree.children {
-        let (child_size, child_score) = part1(&mut child.lock().unwrap());
+        let (child_size, child_score) = part1(&mut child.borrow_mut());
         total += child_size;
         total_score += child_score;
     }
@@ -63,7 +63,7 @@ fn part2(tree: &mut Tree, needed: usize) -> usize {
         min = tree.size;
     }
     for child in &tree.children {
-        let child_min = part2(&mut child.lock().unwrap(), needed);
+        let child_min = part2(&mut child.borrow_mut(), needed);
         if child_min < min {
             min = child_min;
         }
@@ -118,12 +118,12 @@ fn main() {
         output.clear();
     }
 
-    let tree = Rc::new(Mutex::new(Tree {
+    let tree = Rc::new(RefCell::new(Tree {
         name: "/".to_string(),
         output: Some(commands[1].output.clone()),
         children: Vec::new(),
         parent: None,
-        size: 0
+        size: 0,
     }));
 
     let mut cwd = Rc::clone(&tree);
@@ -131,7 +131,7 @@ fn main() {
     for cmd in commands[1..].iter() {
         match &cmd.instruction {
             Instruction::Ls => {
-                cwd.lock().unwrap().children.clear();
+                cwd.borrow_mut().children.clear();
                 for o in cmd.output.iter() {
                     if let Output::Dir(name) = o {
                         let child = Tree {
@@ -139,32 +139,29 @@ fn main() {
                             output: None,
                             children: Vec::new(),
                             parent: Some(Rc::clone(&cwd)),
-                            size: 0
+                            size: 0,
                         };
-                        cwd.lock()
-                            .unwrap()
-                            .children
-                            .push(Rc::new(Mutex::new(child)));
+                        cwd.borrow_mut().children.push(Rc::new(RefCell::new(child)));
                     }
                 }
-                cwd.lock().unwrap().output = Some(cmd.output.clone());
+                cwd.borrow_mut().output = Some(cmd.output.clone());
             }
             Instruction::Cd(path) => {
                 if path == ".." {
                     let next;
                     {
-                        let lock = cwd.lock().unwrap();
+                        let lock = cwd.borrow();
                         next = Rc::clone(lock.parent.as_ref().unwrap());
                     }
                     cwd = next;
                 } else {
                     let child;
                     {
-                        let mut lock = cwd.lock().unwrap();
+                        let mut lock = cwd.borrow_mut();
                         child = Rc::clone(
                             lock.children
                                 .iter_mut()
-                                .find(|c| c.lock().unwrap().name == *path)
+                                .find(|c| c.borrow_mut().name == *path)
                                 .unwrap(),
                         );
                     }
@@ -174,12 +171,11 @@ fn main() {
         }
     }
 
-
-    let part1 = part1(&mut tree.lock().unwrap());
+    let part1 = part1(&mut tree.borrow_mut());
     dbg!(&part1);
     let available = 70000000 - part1.0;
     let needed = 30000000 - available;
 
-    let part2 = part2(&mut tree.lock().unwrap(), needed);
+    let part2 = part2(&mut tree.borrow_mut(), needed);
     dbg!(&part2);
 }
