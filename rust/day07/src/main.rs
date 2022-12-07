@@ -171,9 +171,9 @@ fn main() {
         }
     }
 
-    let part1 = part1(&mut tree.borrow_mut());
+    let (total_size, part1) = part1(&mut tree.borrow_mut());
     dbg!(&part1);
-    let available = 70000000 - part1.0;
+    let available = 70000000 - total_size;
     let needed = 30000000 - available;
 
     let part2 = part2(&mut tree.borrow_mut(), needed);
