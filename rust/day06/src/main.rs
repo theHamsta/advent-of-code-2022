@@ -1,18 +1,6 @@
 use itertools::Itertools;
 use regex::Regex;
 
-#[derive(Eq, PartialEq, Debug)]
-struct Instruction {
-    howmany: u64,
-    from: u64,
-    to: u64,
-}
-
-//fn all_different(chars: char[]) -> bool {
-//let set: HashSet<_> = chars.iter().unique().collect();
-//set.count() == chars.len()
-//}
-
 fn main() {
     let input = include_str!("../../../input/day06.txt");
 
