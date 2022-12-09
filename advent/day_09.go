@@ -91,10 +91,10 @@ func Day09() {
 
 	for _, movement := range movements {
 		for i := 0; i < movement.step; i++ {
-			for r := 1; r < 10; r++ {
+			for r := 1; r < len(rope); r++ {
 				move(movement, &rope[r-1], &rope[r], r == 1)
 
-				if r == 9 {
+				if r == len(rope)-1 {
 					visited[rope[r]] = true
 				}
 			}
