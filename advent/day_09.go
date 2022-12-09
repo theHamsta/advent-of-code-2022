@@ -18,11 +18,21 @@ type Movement struct {
 	step int
 }
 
-func Abs(x int) int {
+func abs(x int) int {
 	if x < 0 {
 		return -x
 	}
 	return x
+}
+
+func sign(x int) int {
+	if x < 0 {
+		return -1
+	}
+	if x > 0 {
+		return 1
+	}
+	return 0
 }
 
 func move(movement Movement, head, tail *[2]int, activeHead bool) {
@@ -40,26 +50,12 @@ func move(movement Movement, head, tail *[2]int, activeHead bool) {
 	}
 
 	dx, dy := (*head)[0]-(*tail)[0], (*head)[1]-(*tail)[1]
-	if !(Abs(dx) > 1 || Abs(dy) > 1) {
+	if !(abs(dx) > 1 || abs(dy) > 1) {
 		return
 	}
 
-	new_x, new_y := (*tail)[0], (*tail)[1]
-	if dx > 0 {
-		new_x += 1
-	}
-	if dx < 0 {
-		new_x -= 1
-	}
-	if dy > 0 {
-		new_y += 1
-	}
-	if dy < 0 {
-		new_y -= 1
-	}
-
-	(*tail)[0] = new_x
-	(*tail)[1] = new_y
+	(*tail)[0] += sign(dx)
+	(*tail)[1] += sign(dy)
 }
 
 func Day09() {
