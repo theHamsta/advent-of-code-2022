@@ -23,6 +23,8 @@ func RunDay(day int) error {
 		Day04()
 	case 5:
 		Day05()
+	case 9:
+		Day09()
 	default:
 		return fmt.Errorf("Day %d not implemented", day)
 	}
