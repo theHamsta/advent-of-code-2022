@@ -23,7 +23,6 @@ fn main() {
     let mut next_mul20 = 20;
     let mut part1 = 0;
 
-    //let pipeline = Vec::new();
     for instruction in instructions.iter() {
         match &instruction {
             Instruction::Noop => {
@@ -74,6 +73,6 @@ fn main() {
                 print!(".");
             }
         }
-        print!("\n");
+        println!();
     }
 }
