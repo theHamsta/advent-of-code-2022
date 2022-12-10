@@ -1,7 +1,6 @@
-use std::{cell::RefCell, rc::Rc};
+
 
 use itertools::Itertools;
-use regex::Regex;
 
 #[derive(Eq, PartialEq, Debug, Clone)]
 enum Instruction {
@@ -76,7 +75,6 @@ fn main() {
             } else {
                 print!(".");
             }
-            cycle += 1;
         }
         print!("\n");
     }
