@@ -31,7 +31,6 @@ fn main() {
             Instruction::Addx(v) => {
                 cycle += 2;
                 if cycle > next_mul20 {
-                    dbg!(&instruction);
                     part1 += x * next_mul20;
                     next_mul20 += 40;
                 }
