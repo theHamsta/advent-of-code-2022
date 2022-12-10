@@ -71,7 +71,8 @@ fn main() {
             cycles_left_till_next_effect -= 1;
 
             if (x - pos).abs() <= 1 {
-                print!("#");
+                //print!("#");
+                print!("█");
             } else {
                 print!(".");
             }
