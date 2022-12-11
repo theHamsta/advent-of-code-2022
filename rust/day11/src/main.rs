@@ -37,11 +37,11 @@ fn solve_monkey(monkeys: &mut [Monkey], rounds: i64, divide_by_3: bool) -> i64 {
                 }
                 new %= cool_number;
                 if new % monkeys[cur_idx].test == 0 {
-                    let tmp = monkeys[cur_idx].if_true as usize;
-                    monkeys[tmp].starting_items.push_back(new);
+                    let next_idx = monkeys[cur_idx].if_true as usize;
+                    monkeys[next_idx].starting_items.push_back(new);
                 } else {
-                    let tmp = monkeys[cur_idx].if_false as usize;
-                    monkeys[tmp].starting_items.push_back(new);
+                    let next_idx = monkeys[cur_idx].if_false as usize;
+                    monkeys[next_idx].starting_items.push_back(new);
                 }
             }
         }
