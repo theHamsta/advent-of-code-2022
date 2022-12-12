@@ -61,7 +61,6 @@ fn dijkstra(map: &[&[u8]], start_pos: (usize, usize)) -> Option<i64> {
             next_tiles.clear();
             break;
         }
-        debug_assert_eq!(get_vec(&shortest_path, current_pos).unwrap(), path_length);
         for neighbor in neighbors(current_pos, &map) {
             let neighbor_length = get_vec(&shortest_path, neighbor);
             if neighbor_length.is_none() || path_length + 1 < neighbor_length.unwrap() {
@@ -88,9 +87,11 @@ fn main() {
 
     let part1 = dijkstra(&map, start_pos);
     dbg!(&part1);
-    let part2 =(0..height)
+
+    // Too lazy to changes rules for single search from 'E' to 'a'
+    let part2 = (0..height)
         .cartesian_product(0..width)
-        .filter(|&(y,x)| map[y][x] == b'a')
+        .filter(|&(y, x)| map[y][x] == b'a')
         .flat_map(|(y, x)| dijkstra(&map, (y, x)))
         .min()
         .unwrap();
