@@ -50,7 +50,7 @@ fn main() {
                                 .push(Element::Number(number.parse().unwrap())),
                         }
                     }
-                    root
+                    root.replace(Default::default())[0].clone()
                 })
                 .collect_vec()
         })
@@ -61,8 +61,8 @@ fn main() {
         .enumerate()
         .filter(|(_idx, p)| {
             compare(
-                &Element::List(Rc::clone(&p[0])),
-                &Element::List(Rc::clone(&p[1])),
+                &p[0],
+                &p[1],
             ) != Ordering::Greater
         })
         .map(|(idx, _)| idx + 1)
@@ -72,7 +72,6 @@ fn main() {
     let mut not_pairs = pairs
         .iter()
         .flatten()
-        .map(|l| l.borrow()[0].clone())
         .collect_vec();
     let sep1 = Element::List(Rc::new(RefCell::new(vec![Element::List(Rc::new(
         RefCell::new(vec![Element::Number(2)]),
@@ -80,8 +79,8 @@ fn main() {
     let sep2 = Element::List(Rc::new(RefCell::new(vec![Element::List(Rc::new(
         RefCell::new(vec![Element::Number(6)]),
     ))])));
-    not_pairs.push(sep1.clone());
-    not_pairs.push(sep2.clone());
+    not_pairs.push(&sep1);
+    not_pairs.push(&sep2);
     not_pairs.sort();
 
     let idx1 = not_pairs.iter().position(|l| {
