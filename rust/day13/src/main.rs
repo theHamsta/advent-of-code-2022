@@ -90,8 +90,7 @@ fn main() {
     let idx2 = not_pairs.iter().position(|l| {
         compare(l, &sep2) == Ordering::Equal
     }).unwrap() + 1;
-    dbg!(idx1);
-    dbg!(idx2);
+
     let part2 = idx1 * idx2;
     dbg!(&part2);
 }
