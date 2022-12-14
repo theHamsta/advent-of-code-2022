@@ -3,8 +3,8 @@ use std::collections::HashMap;
 use itertools::{Itertools, MinMaxResult};
 use regex::Regex;
 
-fn sand_sym(rocks: &mut Vec<Vec<(i64, i64)>>, add_floor: bool) -> i64 {
-    let mut map = HashMap::<(i64, i64), char>::new();
+fn sand_sym(rocks: &mut Vec<Vec<(i32, i32)>>, add_floor: bool) -> i32 {
+    let mut map = HashMap::<(i32, i32), char>::new();
 
     if let MinMaxResult::MinMax(&min_x, &_max_x) = rocks.iter().flatten().map(|(x, _y)| x).minmax()
     {
@@ -64,7 +64,7 @@ fn main() {
     let input = include_str!("../../../input/day14.txt");
 
     let regex = Regex::new(r"(\d+),(\d+)").unwrap();
-    let mut rocks: Vec<Vec<(i64, i64)>> = input
+    let mut rocks: Vec<Vec<(i32, i32)>> = input
         .lines()
         .filter(|l| !l.is_empty())
         .map(|l| {
