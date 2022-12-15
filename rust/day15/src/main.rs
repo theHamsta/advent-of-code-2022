@@ -82,6 +82,7 @@ fn main() {
             let (gap_x, gap_y) = (gap % search_max, gap / search_max);
             let part2 = gap_x * 4000000 + gap_y;
             dbg!(&part2);
+            break;
         }
     }
 }
