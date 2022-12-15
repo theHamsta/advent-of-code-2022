@@ -74,6 +74,7 @@ fn main() {
 
     let mut data = rust_lapper::Lapper::new(marked);
     data.merge_overlaps();
+
     for (a, b) in data.iter().collect::<Vec<_>>().iter().tuple_windows() {
         if a.stop + 1 != b.start {
             let gap: i64 = a.stop as i64 + 1;
