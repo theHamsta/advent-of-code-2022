@@ -72,6 +72,7 @@ fn main() {
     }
     dbg!(&part1);
 
+    // Saw later in other solutions that this could have been done just by iterating over sorted intervals
     let mut data = rust_lapper::Lapper::new(marked);
     data.merge_overlaps();
 
