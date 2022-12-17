@@ -1,8 +1,4 @@
-use std::{
-    cell::RefCell,
-    collections::{HashMap, HashSet, VecDeque},
-    rc::Rc,
-};
+use std::collections::{HashMap, HashSet, VecDeque};
 
 use petgraph::{dot::Dot, visit::EdgeRef, Graph};
 use regex::Regex;
@@ -110,14 +106,12 @@ fn main() {
     println!("{:?}", Dot::new(&petgraph));
 
     let mut open_state = vec![false; petgraph.raw_nodes().len()];
-    let visited_state = vec![false; petgraph.raw_nodes().len()];
     let mut cache = HashMap::new();
     let mut part1 = release_pipes_graph(
         &petgraph,
         node_list["AA"].index() as u32,
         30,
         &mut open_state,
-        &Rc::new(RefCell::new(visited_state)),
         &mut cache,
     );
 
@@ -138,16 +132,18 @@ fn release_pipes_graph(
     current: u32,
     minutes: i64,
     open_state: &mut Vec<bool>,
-    visited: &Rc<RefCell<Vec<bool>>>,
     cache: &mut HashMap<(u32, Vec<bool>, i64), RtnType>,
 ) -> RtnType {
     if minutes <= 0 {
         return (Vec::new(), 0);
     }
-    if let Some(rtn) = cache.get(&(current, open_state.to_vec(), minutes)) {
+    if let Some(rtn) = cache.get(&(
+        current,
+        open_state.to_vec(),
+        minutes,
+    )) {
         return rtn.clone();
     }
-    visited.borrow_mut()[current as usize] = true;
     let freshly_released: u64 = graph
         .raw_nodes()
         .iter()
@@ -157,8 +153,7 @@ fn release_pipes_graph(
         .sum();
     let before_value = open_state[current as usize];
     open_state[current as usize] = true;
-    let mut stay_here =
-        release_pipes_graph(graph, current, minutes - 1, open_state, visited, cache);
+    let mut stay_here = release_pipes_graph(graph, current, minutes - 1, open_state, cache);
     stay_here.0.push(current);
     stay_here.1 += freshly_released;
     open_state[current as usize] = before_value;
@@ -171,7 +166,6 @@ fn release_pipes_graph(
                 e.target().index() as u32,
                 minutes - *e.weight() as i64,
                 open_state,
-                visited,
                 cache,
             );
             rtn.0.push(current);
@@ -182,7 +176,6 @@ fn release_pipes_graph(
         .max_by_key(|k| k.1)
         .unwrap_or_else(|| (Vec::new(), 0));
     if stay_here.1 > rtn.1 {
-        //stay_here.0.push(Action::Open(current.to_owned()));
         rtn = stay_here;
     }
 
@@ -190,6 +183,5 @@ fn release_pipes_graph(
         (current.to_owned(), open_state.to_vec(), minutes),
         rtn.clone(),
     );
-    visited.borrow_mut()[current as usize] = false;
     rtn
 }
