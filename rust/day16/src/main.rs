@@ -26,7 +26,7 @@ struct Node {
 }
 
 fn main() {
-    let input = include_str!("../../../input/day16.txt");
+    let input = include_str!("../../../input/day16_test.txt");
 
     let regex =
         Regex::new(r"Valve\s(\w\w) has flow rate=(\d+); tunnel[s]? lead[s]? to valve[s]? (.*)")
@@ -72,11 +72,23 @@ fn main() {
     }
 
     let aa_idx = node_list["AA"];
-    let mut to_add = Vec::new();
-    for n in petgraph
+    let cool_nodes: HashSet<_> = petgraph
         .node_indices()
         .filter(|idx| petgraph.node_weight(*idx).unwrap().flow_rate > 0 || node_list["AA"] == *idx)
-    {
+        .collect();
+
+    let mut to_add = Vec::new();
+
+    //for start in cool_nodes.iter() {
+    //let paths = dijkstra(&petgraph, *start, None, |e| *petgraph.edge_weight(e.id()).unwrap());
+    //for (goal, distance) in paths {
+    //if goal != aa_idx && goal != *start && cool_nodes.contains(&goal) {
+    //to_add.push((*start, goal, distance));
+    //}
+    //}
+    //}
+    //
+    for n in cool_nodes {
         let mut visited = HashSet::new();
         let mut to_visit = VecDeque::new();
         to_visit.push_back((n, 0));
@@ -103,7 +115,11 @@ fn main() {
         (graph.node_weight(a).unwrap().flow_rate > 0 && graph.node_weight(b).unwrap().flow_rate > 0)
             || a == aa_idx
     });
+    std::fs::write_file();
     println!("{:?}", Dot::new(&petgraph));
+     let mut file = File::create("foo.dot")?;
+    file.write_all(b"Hello, world!")?;
+
 
     let mut open_state = vec![false; petgraph.raw_nodes().len()];
     let mut cache = HashMap::new();
@@ -137,11 +153,7 @@ fn release_pipes_graph(
     if minutes <= 0 {
         return (Vec::new(), 0);
     }
-    if let Some(rtn) = cache.get(&(
-        current,
-        open_state.to_vec(),
-        minutes,
-    )) {
+    if let Some(rtn) = cache.get(&(current, open_state.to_vec(), minutes)) {
         return rtn.clone();
     }
     let freshly_released: u64 = graph
