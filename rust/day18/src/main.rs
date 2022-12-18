@@ -94,7 +94,4 @@ fn main() {
         })
         .sum::<usize>();
     dbg!(&part1);
-    //dbg!(&part1);
-    ////let part2 = play_rock_tetris(&input, 1000000000000, false);
-    //dbg!(&part);
 }
